@@ -32,7 +32,7 @@ class ConfigFile
                     throw new \InvalidArgumentException("File type " . $f->getExtension() . " not supported");
             }
 
-            if (is_array($localOptions) && count($localOptions)) {
+            if (!empty($localOptions) && is_array($localOptions)) {
                 $options = array_replace_recursive($standardOptions, $localOptions);
             } else {
                 $options = $standardOptions;
@@ -58,8 +58,8 @@ class ConfigFile
     {
         if ($profile && isset($options[$profile])) {
             $profileOptions = $options[$profile];
-            $inherit = $profileOptions['inherit'];
-            if ($inherit) {
+            if (isset($profileOptions['inherit'])) {
+                $inherit = $profileOptions['inherit'];
                 unset($profileOptions['inherit']);
                 if (!is_array($inherit)) {
                     $inherit = array($inherit);
